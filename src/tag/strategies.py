@@ -132,8 +132,8 @@ def genetic(obs: np.ndarray, rng: np.random.Generator, sign: int) -> int:
 
                 return population[winner]
 
-            parent1 = select_parent(scores,population)
-            parent2 = select_parent(scores,population)
+            parent1 = select_parent(scores, population)
+            parent2 = select_parent(scores, population)
 
             # combining parent one and parent 2 gene to form a child
             if c_length > 1:

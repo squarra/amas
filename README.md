@@ -14,9 +14,11 @@ uv sync
 | ------- | -------- | -------------------------------------------------- |
 | evader  | `random` | random legal move                                  |
 | evader  | `greedy` | maximizes distance to nearest visible pursuer      |
+| evader  | `genetic`| genetic algorithm evolves a 5-move escape plan     |
 | pursuer | `random` | random legal move                                  |
 | pursuer | `greedy` | minimizes distance to nearest visible evader       |
 | pursuer | `astar`  | A* to the nearest visible evader                   |
+| pursuer | `genetic`| genetic algorithm evolves a 5-move chase plan      |
 | pursuer | `dqn`    | Deep Q-Network, needs `dqn_pursuer.pt` (see below) |
 
 ## Run
