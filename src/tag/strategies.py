@@ -3,7 +3,7 @@ from collections.abc import Callable
 
 import numpy as np
 
-from tag.arena import MOVES, OPPONENTS, STAY, WALLS
+from tag.arena import MOVES, OPPONENTS, STAY, WALLS , is_free
 #from amas.arena import Arena
 type Strategy = Callable[[np.ndarray, np.random.Generator], int]
 
@@ -12,13 +12,13 @@ def center(obs: np.ndarray) -> np.ndarray:
     return np.full(2, obs.shape[1] // 2)
 
 
-def is_free(obs: np.ndarray, r: int, c: int) -> bool:
-    size = obs.shape[1]
-    return 0 <= r < size and 0 <= c < size and not obs[WALLS, r, c]
+#def is_free(obs: np.ndarray, r: int, c: int) -> bool:
+    #size = obs.shape[1]
+    #return 0 <= r < size and 0 <= c < size and not obs[WALLS, r, c]
 
 
 def legal_actions(obs: np.ndarray) -> list[int]:
-    return [a for a, move in enumerate(MOVES) if is_free(obs, *(center(obs) + move))]
+    return [a for a, move in enumerate(MOVES) if is_free(obs[WALLS], *(center(obs) + move))]
 
 
 def nearest_distance(cell: np.ndarray, others: np.ndarray) -> int:
@@ -72,7 +72,7 @@ def astar_pursuer(obs: np.ndarray, rng: np.random.Generator) -> int:
             if action == STAY:
                 continue
             next_cell = (cell[0] + move[0], cell[1] + move[1])
-            if not is_free(obs, *next_cell):
+            if not is_free(obs[WALLS], *next_cell):
                 continue
             new_cost = cost + 1
             if new_cost < costs.get(next_cell, float("inf")):
@@ -118,7 +118,7 @@ def genetic(obs: np.ndarray, rng: np.random.Generator, sign: int) ->int:
 
             new_position = position + MOVES[action]
 
-            if is_free(obs,*new_position):
+            if is_free(obs[WALLS],*new_position):
                 position = new_position
 
             distance = nearest_distance(position, opponents)

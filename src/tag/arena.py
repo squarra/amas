@@ -24,6 +24,9 @@ MAP = """
 ..............
 """
 
+def is_free(walls: np.ndarray, r: int, c: int) -> bool:
+    h, w = walls.shape
+    return 0 <= r < h and 0 <= c < w and not walls[r, c]
 
 class Arena:
     def __init__(self, n_evaders: int = 1, n_pursuers: int = 3, seed: int | None = None):
@@ -47,9 +50,9 @@ class Arena:
     def pursuers(self) -> np.ndarray:
         return self.positions[self.roles == PURSUER]
 
-    def is_free(self, r: int, c: int) -> bool:
-        h, w = self.walls.shape
-        return 0 <= r < h and 0 <= c < w and not self.walls[r, c]
+    #def is_free(self, r: int, c: int) -> bool:
+        #h, w = self.walls.shape
+        #return 0 <= r < h and 0 <= c < w and not self.walls[r, c]
 
     def observe(self, agent: int, radius: int | None = None) -> np.ndarray:
         if radius is None:
@@ -74,7 +77,8 @@ class Arena:
         new = old + MOVES[actions]
 
         for i in range(self.n_agents):
-            if not self.is_free(*new[i]):
+            #if not self.is_free(*new[i]):
+            if not is_free(self.walls,*new[i]):
                 new[i] = old[i]
 
         changed = True
