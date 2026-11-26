@@ -29,6 +29,13 @@ uv run tag -p astar -e greedy      # pick strategies
 uv run tag -p dqn -n 200           # headless: capture rate + mean steps over 200 episodes
 ```
 
+```bash
+uv run tag-leaderboard -n 100
+```
+
+The leaderboard ranks pursuers by mean capture rate (±95% CI per cell, mean steps in brackets)
+and shows each strategy's worst-case (maximin) score. It takes the same options as `tag` below.
+
 Options: `-ne/-np` number of evaders/pursuers, `-r` view radius (default: full map),
 `-s` seed, `-f` fps, `-m` max steps. Esc quits.
 
